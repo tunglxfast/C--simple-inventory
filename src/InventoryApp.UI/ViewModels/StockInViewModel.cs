@@ -19,14 +19,14 @@ public partial class StockInViewModel : ViewModelBase
         _stockDocumentService = stockDocumentService;
         _productService = productService;
         _goBack = goBack;
-        DocDate = DateTime.Today;
+        DocDate = DateTimeOffset.Now.Date;
     }
 
     public ObservableCollection<ProductDto> Products { get; } = new();
     public ObservableCollection<StockDocumentItem> Items { get; } = new();
 
     [ObservableProperty] private string _message = "Tạo phiếu nhập (bản thô).";
-    [ObservableProperty] private DateTime _docDate;
+    [ObservableProperty] private DateTimeOffset? _docDate;
     [ObservableProperty] private string _note = string.Empty;
     [ObservableProperty] private long _documentId;
     [ObservableProperty] private string _docNo = string.Empty;
@@ -48,7 +48,7 @@ public partial class StockInViewModel : ViewModelBase
         var doc = new StockDocument
         {
             DocType = DocumentType.Import,
-            DocDate = DocDate,
+            DocDate = (DocDate ?? DateTimeOffset.Now).DateTime,
             Note = string.IsNullOrWhiteSpace(Note) ? null : Note.Trim()
         };
 

@@ -44,6 +44,7 @@ public partial class App : Application
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = Services.GetRequiredService<MainWindow>();
+                desktop.MainWindow.Show();
             }
         }
         catch (Exception ex)

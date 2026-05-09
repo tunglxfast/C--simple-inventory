@@ -16,7 +16,7 @@
 
     <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,10"
               ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}"
-              AutoGenerateColumns="False" Height="260">
+              AutoGenerateColumns="False" Height="260" IsReadOnly="True">
       <DataGrid.Columns>
         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
         <DataGridTextColumn Header="Mã" Binding="{Binding Code}" Width="140"/>

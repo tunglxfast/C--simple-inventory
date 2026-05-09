@@ -60,12 +60,19 @@ public partial class ProductViewModel : ViewModelBase
     [RelayCommand]
     private async Task LoadAsync()
     {
-        var items = await _productService.SearchAsync(Keyword);
-        Products.Clear();
-        foreach (var item in items)
-            Products.Add(item);
+        try
+        {
+            var items = await _productService.SearchAsync(Keyword);
+            Products.Clear();
+            foreach (var item in items)
+                Products.Add(item);
 
-        Message = $"Đã tải {Products.Count} sản phẩm.";
+            Message = $"Đã tải {Products.Count} sản phẩm.";
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+        }
     }
 
     [RelayCommand]

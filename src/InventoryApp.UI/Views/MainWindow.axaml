@@ -7,6 +7,11 @@
         mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
         x:Class="InventoryApp.UI.Views.MainWindow"
         x:DataType="vm:MainViewModel"
+        Width="1200"
+        Height="760"
+        MinWidth="1000"
+        MinHeight="640"
+        WindowStartupLocation="CenterScreen"
         Title="{Binding Title}">
   <Window.DataTemplates>
     <DataTemplate DataType="vm:LoginViewModel"><views:LoginView /></DataTemplate>

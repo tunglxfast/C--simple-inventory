@@ -20,7 +20,7 @@ public partial class StockOutViewModel : ViewModelBase
         _productService = productService;
         _goBack = goBack;
 
-        DocDate = DateTime.Today;
+        DocDate = DateTimeOffset.Now.Date;
         SelectedStockEffectType = "EXPORT";
     }
 
@@ -31,7 +31,7 @@ public partial class StockOutViewModel : ViewModelBase
     public IReadOnlyList<string> StockEffectTypes { get; } = new[] { "EXPORT", "HOLD", "RETURN", "DAMAGE" };
 
     [ObservableProperty] private string _message = "Tạo phiếu xuất thử nghiệm (bản thô).";
-    [ObservableProperty] private DateTime _docDate;
+    [ObservableProperty] private DateTimeOffset? _docDate;
     [ObservableProperty] private string _customerName = string.Empty;
     [ObservableProperty] private string _note = string.Empty;
     [ObservableProperty] private long _documentId;
@@ -77,7 +77,7 @@ public partial class StockOutViewModel : ViewModelBase
         var doc = new StockDocument
         {
             DocType = DocumentType.Export,
-            DocDate = DocDate,
+            DocDate = (DocDate ?? DateTimeOffset.Now).DateTime,
             CustomerName = string.IsNullOrWhiteSpace(CustomerName) ? null : CustomerName.Trim(),
             Note = string.IsNullOrWhiteSpace(Note) ? null : Note.Trim()
         };

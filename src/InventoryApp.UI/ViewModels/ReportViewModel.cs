@@ -27,8 +27,8 @@ public partial class ReportViewModel : ViewModelBase
     public ObservableCollection<PersonSummaryRowDto> RequesterRows { get; } = new();
     public IReadOnlyList<string> Presets { get; } = new[] { "TUY_CHON", "THANG_NAY", "QUY_NAY", "NAM_NAY", "30_NGAY_GAN_NHAT" };
 
-    [ObservableProperty] private DateTime _fromDate;
-    [ObservableProperty] private DateTime _toDate;
+    [ObservableProperty] private DateTimeOffset? _fromDate;
+    [ObservableProperty] private DateTimeOffset? _toDate;
     [ObservableProperty] private string _exportDirectory = string.Empty;
     [ObservableProperty] private string _message = "";
     [ObservableProperty] private string _selectedPreset = "THANG_NAY";
@@ -41,25 +41,28 @@ public partial class ReportViewModel : ViewModelBase
     [RelayCommand]
     private async Task RunReportAsync()
     {
-        if (FromDate.Date > ToDate.Date)
+        if (FromDate is null || ToDate is null || FromDate.Value.Date > ToDate.Value.Date)
         {
             Message = "Khoảng ngày không hợp lệ.";
             return;
         }
 
-        var rows = await _reportService.GetInventoryReportAsync(FromDate, ToDate);
+        var fromDate = FromDate.Value.DateTime;
+        var toDate = ToDate.Value.DateTime;
+
+        var rows = await _reportService.GetInventoryReportAsync(fromDate, toDate);
         Rows.Clear();
         foreach (var row in rows) Rows.Add(row);
 
-        var hold = await _reportService.GetHoldReportAsync(FromDate, ToDate);
+        var hold = await _reportService.GetHoldReportAsync(fromDate, toDate);
         HoldRows.Clear();
         foreach (var row in hold) HoldRows.Add(row);
 
-        var sale = await _reportService.GetSaleSummaryReportAsync(FromDate, ToDate);
+        var sale = await _reportService.GetSaleSummaryReportAsync(fromDate, toDate);
         SaleRows.Clear();
         foreach (var row in sale) SaleRows.Add(row);
 
-        var requester = await _reportService.GetRequesterSummaryReportAsync(FromDate, ToDate);
+        var requester = await _reportService.GetRequesterSummaryReportAsync(fromDate, toDate);
         RequesterRows.Clear();
         foreach (var row in requester) RequesterRows.Add(row);
 
@@ -71,10 +74,17 @@ public partial class ReportViewModel : ViewModelBase
     {
         try
         {
-            var f1 = await _exportService.ExportInventoryReportAsync(FromDate, ToDate, ExportDirectory);
-            var f2 = await _exportService.ExportHoldReportAsync(FromDate, ToDate, ExportDirectory);
-            var f3 = await _exportService.ExportSaleSummaryReportAsync(FromDate, ToDate, ExportDirectory);
-            var f4 = await _exportService.ExportRequesterSummaryReportAsync(FromDate, ToDate, ExportDirectory);
+            if (FromDate is null || ToDate is null)
+            {
+                Message = "Khoảng ngày không hợp lệ.";
+                return;
+            }
+            var fromDate = FromDate.Value.DateTime;
+            var toDate = ToDate.Value.DateTime;
+            var f1 = await _exportService.ExportInventoryReportAsync(fromDate, toDate, ExportDirectory);
+            var f2 = await _exportService.ExportHoldReportAsync(fromDate, toDate, ExportDirectory);
+            var f3 = await _exportService.ExportSaleSummaryReportAsync(fromDate, toDate, ExportDirectory);
+            var f4 = await _exportService.ExportRequesterSummaryReportAsync(fromDate, toDate, ExportDirectory);
             Message = $"Đã xuất:\n- {f1}\n- {f2}\n- {f3}\n- {f4}";
         }
         catch (Exception ex)
@@ -92,22 +102,22 @@ public partial class ReportViewModel : ViewModelBase
         switch (preset)
         {
             case "THANG_NAY":
-                FromDate = new DateTime(today.Year, today.Month, 1);
-                ToDate = today;
+                FromDate = new DateTimeOffset(new DateTime(today.Year, today.Month, 1));
+                ToDate = new DateTimeOffset(today);
                 break;
             case "QUY_NAY":
                 var quarter = (today.Month - 1) / 3;
                 var startMonth = quarter * 3 + 1;
-                FromDate = new DateTime(today.Year, startMonth, 1);
-                ToDate = today;
+                FromDate = new DateTimeOffset(new DateTime(today.Year, startMonth, 1));
+                ToDate = new DateTimeOffset(today);
                 break;
             case "NAM_NAY":
-                FromDate = new DateTime(today.Year, 1, 1);
-                ToDate = today;
+                FromDate = new DateTimeOffset(new DateTime(today.Year, 1, 1));
+                ToDate = new DateTimeOffset(today);
                 break;
             case "30_NGAY_GAN_NHAT":
-                FromDate = today.AddDays(-29);
-                ToDate = today;
+                FromDate = new DateTimeOffset(today.AddDays(-29));
+                ToDate = new DateTimeOffset(today);
                 break;
             default:
                 break;
