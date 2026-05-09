@@ -1,0 +1,17 @@
+.DS_Store
+.vs/
+.vscode/
+.idea/
+bin/
+obj/
+out/
+artifacts/
+publish/
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.user
+*.suo
+*.sln.docstates
+*.log

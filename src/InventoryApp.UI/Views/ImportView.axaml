@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:InventoryApp.UI.ViewModels"
+             x:Class="InventoryApp.UI.Views.ImportView"
+             x:DataType="vm:ImportViewModel">
+  <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*" Margin="0">
+    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+      <Button Content="← Dashboard" Command="{Binding BackCommand}"/>
+      <TextBlock Text="Import Excel (bản thô)" FontWeight="Bold" FontSize="20"/>
+    </StackPanel>
+
+    <Border Grid.Row="1" Padding="10" CornerRadius="8" Background="#112E7D32" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox Width="500" Watermark="Đường dẫn file sản phẩm" Text="{Binding ProductsFilePath}"/>
+        <Button Content="Import Products" Command="{Binding ImportProductsCommand}"/>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="2" Padding="10" CornerRadius="8" Background="#111E88E5" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox Width="500" Watermark="Đường dẫn file tồn đầu kỳ" Text="{Binding OpeningStockFilePath}"/>
+        <Button Content="Import Opening" Command="{Binding ImportOpeningStockCommand}"/>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="3" Padding="10" CornerRadius="8" Background="#11F9A825" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox Width="500" Watermark="Đường dẫn file transactions" Text="{Binding TransactionsFilePath}"/>
+        <Button Content="Import Transactions" Command="{Binding ImportTransactionsCommand}"/>
+      </StackPanel>
+    </Border>
+
+    <TextBlock Grid.Row="4" Text="{Binding Message}" TextWrapping="Wrap"/>
+  </Grid>
+</UserControl>

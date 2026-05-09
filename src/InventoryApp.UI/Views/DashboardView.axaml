@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:InventoryApp.UI.ViewModels"
+             x:Class="InventoryApp.UI.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+  <StackPanel Spacing="12">
+    <TextBlock Text="{Binding Greeting}" FontSize="24" FontWeight="Bold" />
+    <WrapPanel ItemWidth="220" ItemHeight="100">
+      <Border Margin="0,0,12,12" Padding="12" CornerRadius="10" Background="#11358A2A">
+        <StackPanel>
+          <TextBlock Text="Tổng sản phẩm"/>
+          <TextBlock Text="{Binding TotalProducts}" FontSize="22" FontWeight="Bold"/>
+        </StackPanel>
+      </Border>
+      <Border Margin="0,0,12,12" Padding="12" CornerRadius="10" Background="#111E88E5">
+        <StackPanel>
+          <TextBlock Text="Hàng sắp hết"/>
+          <TextBlock Text="{Binding LowStockCount}" FontSize="22" FontWeight="Bold"/>
+        </StackPanel>
+      </Border>
+      <Border Margin="0,0,12,12" Padding="12" CornerRadius="10" Background="#11F9A825">
+        <StackPanel>
+          <TextBlock Text="Bill HOLD"/>
+          <TextBlock Text="{Binding HoldingBills}" FontSize="22" FontWeight="Bold"/>
+        </StackPanel>
+      </Border>
+    </WrapPanel>
+    <WrapPanel ItemWidth="160" ItemHeight="40">
+      <Button Content="Quản lý sản phẩm" Command="{Binding OpenProductsCommand}" Width="150" Margin="0,0,8,8" />
+      <Button Content="Phiếu nhập" Command="{Binding OpenStockInCommand}" Width="150" Margin="0,0,8,8" />
+      <Button Content="Phiếu xuất" Command="{Binding OpenStockOutCommand}" Width="150" Margin="0,0,8,8" />
+      <Button Content="Tồn đầu kỳ" Command="{Binding OpenOpeningStockCommand}" Width="150" Margin="0,0,8,8" />
+      <Button Content="Import Excel" Command="{Binding OpenImportCommand}" Width="150" Margin="0,0,8,8" />
+      <Button Content="Báo cáo" Command="{Binding OpenReportCommand}" Width="150" Margin="0,0,8,8" />
+    </WrapPanel>
+  </StackPanel>
+</UserControl>

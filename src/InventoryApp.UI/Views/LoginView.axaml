@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:InventoryApp.UI.ViewModels"
+             x:Class="InventoryApp.UI.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+  <Border MaxWidth="420" Padding="24" CornerRadius="12" Background="#112E7D32">
+    <StackPanel Spacing="10">
+      <TextBlock Text="Đăng nhập" FontSize="22" FontWeight="Bold" />
+      <TextBox Watermark="Tài khoản" Text="{Binding Username}" />
+      <TextBox Watermark="Mật khẩu" PasswordChar="*" Text="{Binding Password}" />
+      <Button Content="Đăng nhập" Command="{Binding LoginCommand}" />
+      <TextBlock Text="{Binding Message}" Foreground="#B0FFFFFF" TextWrapping="Wrap" />
+    </StackPanel>
+  </Border>
+</UserControl>

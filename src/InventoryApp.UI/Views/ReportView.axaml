@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:InventoryApp.UI.ViewModels"
+             x:Class="InventoryApp.UI.Views.ReportView"
+             x:DataType="vm:ReportViewModel">
+  <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" ColumnDefinitions="*">
+    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+      <Button Content="← Dashboard" Command="{Binding BackCommand}"/>
+      <TextBlock Text="Báo cáo" FontWeight="Bold" FontSize="20"/>
+    </StackPanel>
+
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+      <ComboBox Width="180" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}"/>
+      <DatePicker SelectedDate="{Binding FromDate}"/>
+      <DatePicker SelectedDate="{Binding ToDate}"/>
+      <TextBox Width="260" Watermark="Thư mục export" Text="{Binding ExportDirectory}"/>
+      <Button Content="Chạy báo cáo" Command="{Binding RunReportCommand}"/>
+      <Button Content="Xuất Excel" Command="{Binding ExportExcelCommand}"/>
+    </StackPanel>
+
+    <TabControl Grid.Row="3" Margin="0,0,0,10">
+      <TabItem Header="Xuất-Nhập-Tồn">
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Rows}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Mã" Binding="{Binding ProductCode}" Width="120"/>
+            <DataGridTextColumn Header="Tên" Binding="{Binding ProductName}" Width="220"/>
+            <DataGridTextColumn Header="Đầu kỳ" Binding="{Binding OpeningQty}" Width="100"/>
+            <DataGridTextColumn Header="Nhập" Binding="{Binding ImportQty}" Width="100"/>
+            <DataGridTextColumn Header="Xuất" Binding="{Binding ExportQty}" Width="100"/>
+            <DataGridTextColumn Header="Trả" Binding="{Binding ReturnQty}" Width="100"/>
+            <DataGridTextColumn Header="Hư" Binding="{Binding DamageQty}" Width="100"/>
+            <DataGridTextColumn Header="Tồn cuối" Binding="{Binding ClosingQty}" Width="120"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </TabItem>
+      <TabItem Header="HOLD">
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding HoldRows}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Số phiếu" Binding="{Binding DocNo}" Width="180"/>
+            <DataGridTextColumn Header="Mã" Binding="{Binding ProductCode}" Width="120"/>
+            <DataGridTextColumn Header="Tên" Binding="{Binding ProductName}" Width="220"/>
+            <DataGridTextColumn Header="SL" Binding="{Binding Qty}" Width="100"/>
+            <DataGridTextColumn Header="Trạng thái" Binding="{Binding ItemStatus}" Width="120"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </TabItem>
+      <TabItem Header="Theo Sale">
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding SaleRows}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Tên" Binding="{Binding PersonName}" Width="220"/>
+            <DataGridTextColumn Header="SL xuất" Binding="{Binding ExportQty}" Width="120"/>
+            <DataGridTextColumn Header="Số phiếu" Binding="{Binding DocumentCount}" Width="120"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </TabItem>
+      <TabItem Header="Theo đề xuất">
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding RequesterRows}">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Tên" Binding="{Binding PersonName}" Width="220"/>
+            <DataGridTextColumn Header="SL xuất" Binding="{Binding ExportQty}" Width="120"/>
+            <DataGridTextColumn Header="Số phiếu" Binding="{Binding DocumentCount}" Width="120"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </TabItem>
+    </TabControl>
+
+    <TextBlock Grid.Row="4" Text="{Binding Message}" TextWrapping="Wrap"/>
+  </Grid>
+</UserControl>

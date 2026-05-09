@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:InventoryApp.UI.ViewModels"
+             x:Class="InventoryApp.UI.Views.StockOutView"
+             x:DataType="vm:StockOutViewModel">
+  <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,*,Auto,*,Auto" ColumnDefinitions="*,*" Margin="0">
+    <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+      <Button Content="← Dashboard" Command="{Binding BackCommand}"/>
+      <TextBlock Text="Phiếu Xuất (bản thô)" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+    </StackPanel>
+
+    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" CornerRadius="8" Background="#112E7D32" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <DatePicker SelectedDate="{Binding DocDate}" />
+        <TextBox Width="220" Watermark="Khách hàng" Text="{Binding CustomerName}"/>
+        <TextBox Width="260" Watermark="Ghi chú" Text="{Binding Note}"/>
+        <Button Content="Tạo phiếu nháp" Command="{Binding CreateDraftCommand}"/>
+        <TextBlock Text="{Binding DocNo}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" CornerRadius="8" Background="#111E88E5" Margin="0,0,0,10">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Content="Nạp sản phẩm" Command="{Binding LoadProductsCommand}"/>
+        <ComboBox Width="220" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Code}" />
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        <NumericUpDown Width="120" Minimum="1" Value="{Binding Qty}"/>
+        <ComboBox Width="120" ItemsSource="{Binding StockEffectTypes}" SelectedItem="{Binding SelectedStockEffectType}"/>
+        <Button Content="Thêm dòng" Command="{Binding AddItemCommand}"/>
+        <Button Content="Xác nhận" Command="{Binding ConfirmCommand}"/>
+      </StackPanel>
+    </Border>
+
+    <TextBlock Grid.Row="3" Grid.ColumnSpan="2" Text="Dòng hàng trong phiếu nháp" FontWeight="SemiBold" Margin="0,0,0,4"/>
+    <DataGrid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" AutoGenerateColumns="False" ItemsSource="{Binding Items}" Height="170" Margin="0,0,0,10">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="ProductId" Binding="{Binding ProductId}" Width="120"/>
+        <DataGridTextColumn Header="Số lượng" Binding="{Binding Qty}" Width="120"/>
+        <DataGridTextColumn Header="Nghiệp vụ" Binding="{Binding StockEffectType}" Width="140"/>
+        <DataGridTextColumn Header="Trạng thái dòng" Binding="{Binding ItemStatus}" Width="140"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <Border Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" CornerRadius="8" Background="#11F9A825" Margin="0,0,0,10">
+      <StackPanel Spacing="8">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock Text="Danh sách HOLD đang mở" FontWeight="SemiBold" VerticalAlignment="Center"/>
+          <Button Content="Tải HOLD" Command="{Binding LoadHoldingCommand}"/>
+          <Button Content="Chuyển SOLD" Command="{Binding MarkSoldCommand}"/>
+          <Button Content="Chuyển RETURNED" Command="{Binding MarkReturnedCommand}"/>
+        </StackPanel>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding HoldingItems}" SelectedItem="{Binding SelectedHoldingItem}" Height="160">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="ItemId" Binding="{Binding Id}" Width="100"/>
+            <DataGridTextColumn Header="DocId" Binding="{Binding DocumentId}" Width="100"/>
+            <DataGridTextColumn Header="ProductId" Binding="{Binding ProductId}" Width="100"/>
+            <DataGridTextColumn Header="Số lượng" Binding="{Binding Qty}" Width="100"/>
+            <DataGridTextColumn Header="Trạng thái" Binding="{Binding ItemStatus}" Width="120"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </StackPanel>
+    </Border>
+
+    <Border Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" CornerRadius="8" Background="#11B71C1C">
+      <StackPanel Spacing="8">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock Text="Hủy phiếu CONFIRMED (tạo phiếu đảo)" FontWeight="SemiBold" VerticalAlignment="Center"/>
+          <Button Content="Tải phiếu CONFIRMED" Command="{Binding LoadConfirmedDocsCommand}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBox Width="320" Watermark="Lý do hủy" Text="{Binding CancelReason}"/>
+          <Button Content="Hủy phiếu đã chọn" Command="{Binding CancelSelectedDocumentCommand}"/>
+        </StackPanel>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ConfirmedDocuments}" SelectedItem="{Binding SelectedConfirmedDocument}" Height="160">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="90"/>
+            <DataGridTextColumn Header="Số phiếu" Binding="{Binding DocNo}" Width="180"/>
+            <DataGridTextColumn Header="Loại" Binding="{Binding DocType}" Width="120"/>
+            <DataGridTextColumn Header="Ngày" Binding="{Binding DocDate}" Width="180"/>
+          </DataGrid.Columns>
+        </DataGrid>
+      </StackPanel>
+    </Border>
+
+    <TextBlock Grid.Row="8" Grid.ColumnSpan="2" Margin="0,10,0,0" Text="{Binding Message}" TextWrapping="Wrap"/>
+  </Grid>
+</UserControl>

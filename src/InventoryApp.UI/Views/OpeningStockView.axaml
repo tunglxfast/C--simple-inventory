@@ -1,0 +1,39 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:InventoryApp.UI.ViewModels"
+             x:Class="InventoryApp.UI.Views.OpeningStockView"
+             x:DataType="vm:OpeningStockViewModel">
+  <Grid RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*">
+    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+      <Button Content="← Dashboard" Command="{Binding BackCommand}"/>
+      <TextBlock Text="Tồn Đầu Kỳ" FontSize="20" FontWeight="Bold"/>
+    </StackPanel>
+
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,0,0,10">
+      <Button Content="Nạp sản phẩm" Command="{Binding LoadProductsCommand}"/>
+      <ComboBox Width="220" ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Code}" />
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <NumericUpDown Width="120" Minimum="1" Value="{Binding Qty}"/>
+      <TextBox Width="240" Watermark="Ghi chú" Text="{Binding Note}"/>
+      <Button Content="Thêm tồn đầu" Command="{Binding AddCommand}"/>
+      <Button Content="Tải danh sách" Command="{Binding LoadRowsCommand}"/>
+    </StackPanel>
+
+    <DataGrid Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding Rows}" Margin="0,0,0,10">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
+        <DataGridTextColumn Header="ProductId" Binding="{Binding ProductId}" Width="100"/>
+        <DataGridTextColumn Header="Mã SP" Binding="{Binding ProductCode}" Width="140"/>
+        <DataGridTextColumn Header="Số lượng" Binding="{Binding Qty}" Width="120"/>
+        <DataGridTextColumn Header="Ngày" Binding="{Binding CreatedAt}" Width="220"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <TextBlock Grid.Row="3" Text="{Binding Message}" TextWrapping="Wrap"/>
+  </Grid>
+</UserControl>

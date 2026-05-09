@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:InventoryApp.UI.ViewModels"
+        xmlns:views="using:InventoryApp.UI.Views"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
+        x:Class="InventoryApp.UI.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="{Binding Title}">
+  <Window.DataTemplates>
+    <DataTemplate DataType="vm:LoginViewModel"><views:LoginView /></DataTemplate>
+    <DataTemplate DataType="vm:DashboardViewModel"><views:DashboardView /></DataTemplate>
+    <DataTemplate DataType="vm:ProductViewModel"><views:ProductView /></DataTemplate>
+    <DataTemplate DataType="vm:StockOutViewModel"><views:StockOutView /></DataTemplate>
+    <DataTemplate DataType="vm:StockInViewModel"><views:StockInView /></DataTemplate>
+    <DataTemplate DataType="vm:OpeningStockViewModel"><views:OpeningStockView /></DataTemplate>
+    <DataTemplate DataType="vm:ImportViewModel"><views:ImportView /></DataTemplate>
+    <DataTemplate DataType="vm:ReportViewModel"><views:ReportView /></DataTemplate>
+  </Window.DataTemplates>
+
+  <Grid Margin="20">
+    <ContentControl Content="{Binding CurrentViewModel}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+  </Grid>
+</Window>
